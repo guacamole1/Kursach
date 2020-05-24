@@ -6,17 +6,17 @@ private:
 	int mouth;
 	int year;
 
-	double cost;
+	int cost;
 
 	std::string point;
 
 	Cashbox *next_handler;
 
 public:
-	Cashbox() : next_handler(nullptr) {};
+	Cashbox();
+	~Cashbox();
 	Cashbox* SetNext(Cashbox *handler);
 	Cashbox* gethandler();
-	Cashbox * SetNext(Cashbox * handler);
 	void handle(std::string request) override;
 
 };

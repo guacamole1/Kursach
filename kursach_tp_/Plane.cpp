@@ -8,3 +8,5 @@ void Plane::handle(std::string request) {
 	cout << "Обработчик 'Самолёт':" << endl;
 	function(request, str);
 }
+Plane::Plane(){}
+Plane::~Plane() {}

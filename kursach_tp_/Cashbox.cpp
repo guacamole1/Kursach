@@ -3,11 +3,15 @@
 
 using namespace std;
 
-Cashbox::Cashbox() : next_handler(nullptr) {
+Cashbox::Cashbox(){
 	day = 0;
 	mouth = 0;
 	year = 0;
 	point = "";
+	next_handler = nullptr;
+}
+
+Cashbox::~Cashbox(){
 }
 
 Cashbox* Cashbox::gethandler() {

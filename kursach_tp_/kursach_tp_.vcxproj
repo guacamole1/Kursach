@@ -118,7 +118,6 @@
     <ClInclude Include="Cashbox.h" />
     <ClInclude Include="friend.h" />
     <ClInclude Include="Hendler.h" />
-    <ClInclude Include="menu.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Train.h" />
