@@ -4,3 +4,6 @@
 #include "Plane.h"
 #include "Train.h"
 
+void menu() {
+
+}
