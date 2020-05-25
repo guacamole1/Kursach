@@ -1,11 +1,13 @@
 ﻿// Kursovaya_TEHPROG.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
-
 #include "pch.h"
 #include "Cashbox.h"
 #include "Plane.h"
 #include "Train.h"
 #include <iostream>
+#include <Windows.h>
+
+#define STD_OUTPUT_HANDLE ((DWORD)-11)
 
 using namespace std;
  
@@ -13,6 +15,10 @@ int main()
 
 {
 	setlocale(LC_ALL, "Russian");
+	COORD position;										// Объявление необходимой структуры
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	position.X = 3;									// Установка координаты X
+	position.Y = 5;									// Установка координаты Y
 	Cashbox *handler1 = new Cashbox;
 	Plane *handler2 = new Plane;
 	Train *handler3 = new Train;
@@ -40,14 +46,17 @@ int main()
 			cout << "Пример:16.06.20" << endl;
 			cout << "Пример:1.06.20" << endl;
 			cout << "> ";
-			cin >> day;
-			cout << "\r";
+			cin >> day;	
+			SetConsoleCursorPosition(hConsole, position);
 			cout << ".";
 			cin >> mouth;
+			position.X = 5;			
+			position.Y = 5;
+			SetConsoleCursorPosition(hConsole, position);
 			cout << ".";
 			cin >> year;
 			
-			cout << "Введите цен у(в рублях)" << endl;
+			cout << "Введите цену (в рублях)" << endl;
 			cout << "Пример:1600" << endl;
 			cout << "> ";
 			cin >> cost;
