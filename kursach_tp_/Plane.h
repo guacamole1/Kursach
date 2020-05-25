@@ -2,6 +2,8 @@
 #include "Cashbox.h"
 #include "friend.h"
 class Plane : public Cashbox {
+protected:
+	string filename;
 public:
 	Plane();
 	~Plane();

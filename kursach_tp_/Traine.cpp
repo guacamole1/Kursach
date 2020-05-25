@@ -6,6 +6,5 @@ void Train::handle(std::string request) {
 	function(request, str);
 
 }
-
 Train::Train() {}
 Train::~Train() {}

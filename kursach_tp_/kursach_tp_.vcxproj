@@ -128,7 +128,6 @@
     <Text Include="train.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Admin.cpp" />
     <ClCompile Include="Cashbox.cpp" />
     <ClCompile Include="Friend.cpp" />
     <ClCompile Include="main.cpp" />

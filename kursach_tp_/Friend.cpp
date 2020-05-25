@@ -1,5 +1,6 @@
-
+#include <Windows.h>//используется для красиваого ввода даты в формате ДД.ММ.ГГ
 #include "friend.h"
+#include "Cashbox.h"
 
 
 using namespace std;
@@ -10,75 +11,110 @@ string converter(int day, int mouth, int year, int cost, string str) {
 	return request;
 }
 
-void function(string request, string str) {
-	Cashbox ob;
-	vector <string> vec_string;
 
-	bool flag1 = false;
-	string str1;
-	int num=1, check = 0, p = -1;
-	ifstream fin;
-	ofstream fot;
+string menu(int flag2) {
+	COORD position;										// Объявление необходимой структуры
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	int day;
+	int mouth;
+	int year;
+	int choice;
+	int cost;
 
-	try {
-		fin.open(str, ios::in);
-		if (!fin.is_open()) {
-			fin.close();
-			throw exception("Файл не открылся.");
-		}
-	}
-	catch (exception& ex) {
-		cout << ex.what() << endl;
-		system("pause");
-	}
+	string str1,point, request, str = "Некорректный ввод, используйте пример";
 
-	try {
-		fot.open("tickets.txt", ios_base::app);
-		if (!fot.is_open()) {
-			fot.close();
-			throw exception("Файл 'билеты' не открылся.");
-		}
-	}
-	catch (exception& ex) {
-		cout << ex.what() << endl;
-		system("pause");
-	}
+	bool flag1 = true, flag = true;
+	switch (flag2)
+	{
+	case 0: {
+		while (flag) {
+			cout << "Система запросов Касса -> Поезд -> Самолёт" << endl;
+			cout << "Введите свой запрос" << endl;
+			while (true) {
+				cout << "Введите дату:ДД.ММ.ГГ" << endl;
+				cout << "Пример:\n Дата:16.06.20 Стоимость:1999 рублей Пункт назначения:Волгоград" << endl;
+				cout << "Дата: ";
+				while (flag1) {
+					flag1 = false;
+					position.X = 5;
+					position.Y = 5;
+					SetConsoleCursorPosition(hConsole, position);
+					cin >> day;
+					if (day > 9)
+						position.X = 7;
+					else
+						position.X = 6;
+					position.Y = 5;
+					SetConsoleCursorPosition(hConsole, position);
+					cout << ".";
+					cin >> mouth;
+					if (mouth > 9) {
+						if (day < 10)
+							position.X = 9;
+						else
+							position.X = 10;
+					}
+					else
+						position.X = 8;
+					position.Y = 5;
+					SetConsoleCursorPosition(hConsole, position);
+					cout << ".";
+					cin >> year;
+					try {
+						if (!((day > 0 && day < 32) && (mouth > 0 && mouth < 32) && (year >= 20 && year < 22))) {
+							throw str;
+						}
+					}
+					catch (string str) {
+						cout << str << endl;
+						flag1 = true;
 
-	while (!fin.eof()) {
-		getline(fin, str1);
-		if (str1 == request) {
-			flag1 = true;
-			vec_string.push_back(str1);
-			cout << vec_string.size() << " " << str1 << endl;
-		}
-	}
-	if (flag1) {
-		while (1) {
-			check = num;
-			cout << "Выберите билет,который хотите купить" << endl;
-			cout << "Для завершения обзора введите '0'" << endl;
-			cout << ">";
-			cin >> num;
-			if (num == -1) { break; }
-			fot << vec_string[num];
-			fot << "\n";
-			
-			if (num == check)
-			{
-				p++;
-				if (p > 5)
-				{
-					cout << "Превышен лимит покупки данного билета" << endl;
+					}
 				}
+				position.X = 2;
+				position.Y = 8;
+				SetConsoleCursorPosition(hConsole, position);
+				cout << "Введите цену (в рублях)" << endl;
+
+				cout << "Стоимость:";
+				while (!(cin >> cost) || (cin.peek() != '\n'))
+				{
+					cin.clear();
+					while (cin.get() != '\n');
+					cout << "Некорректный ввод,пожалуйста,используйте пример" << endl;
+				}
+
+				cout << "Введите пункт назначения" << endl;
+				cout << "Пункт назначения:";
+				cin >> point;
+				request = converter(day, mouth, year, cost, point);
 			}
 		}
-
+		break; }
+	case 1: {
+		cout << "Выберите по какому параметру будет отправлен запрос:" << endl;
+		cout << "1 - Дата" << endl;
+		cout << "2 - Стоимость" << endl;
+		cout << "3 - Пункт назначения" << endl;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:{
+			request = to_string(day) + "." + to_string(mouth) + "." + to_string(year);
+			break; }
+		case 2:{
+			
+			break; }
+		case 3:{
+			
+			break; }
+		default:
+			break;
+		}
+		break; 
 	}
-	else {
-
-		cout << "Не дал результатов" << endl;
-		return ob.handle(request);
+	default:"Неверный ввод";
+		break;
 	}
-	fin.close();
-	fot.close();
+	return request;
 }

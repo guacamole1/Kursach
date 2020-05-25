@@ -8,15 +8,20 @@ private:
 
 	int cost;
 
-	std::string point;
+	string point;
 
-	Cashbox *next_handler;
+	Handler *next_handler;
 
 public:
 	Cashbox();
 	~Cashbox();
-	Cashbox* SetNext(Cashbox *handler);
-	Cashbox* gethandler();
-	void handle(std::string request) override;
+	void push();// ввод данных билета
+	void fpush(string str);// ввод данных в файл
+	void display(string str);// вывод данных билета
+	void fdisplay(string str);// вывод данных билета в файл
 
+	void function(string request, string str);//поиск запроса в str
+
+	void handle(string request) override;
+	Handler *SetNext(Handler *handler) override;
 };

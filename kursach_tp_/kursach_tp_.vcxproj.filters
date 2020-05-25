@@ -46,9 +46,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Admin.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
     <ClCompile Include="Cashbox.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>

@@ -5,9 +5,8 @@
 #include "Plane.h"
 #include "Train.h"
 #include <iostream>
-#include <Windows.h>
+#include <Windows.h>//используется для красиваого ввода даты в формате ДД.ММ.ГГ
 
-#define STD_OUTPUT_HANDLE ((DWORD)-11)
 
 using namespace std;
  
@@ -15,69 +14,11 @@ int main()
 
 {
 	setlocale(LC_ALL, "Russian");
-	COORD position;										// Объявление необходимой структуры
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	position.X = 3;									// Установка координаты X
-	position.Y = 5;									// Установка координаты Y
 	Cashbox *handler1 = new Cashbox;
 	Plane *handler2 = new Plane;
 	Train *handler3 = new Train;
 
-	Cashbox ob1;
-	Plane ob2;
-	Train ob3;
 
-	int day;
-	int mouth;
-	int year;
-
-	int cost;
-
-	string point,request;
-
-	bool flag1=true ,flag=true;
-	handler1->SetNext(handler2)->SetNext(handler3);
-
-	while (flag) {
-		cout << "Система запросов Касса -> Поезд -> Самолёт" << endl;
-		cout << "Введите свой запрос" << endl;
-		while (true) {
-			cout << "Введите дату:ДД.ММ.ГГ" << endl;
-			cout << "Пример:16.06.20" << endl;
-			cout << "Пример:1.06.20" << endl;
-			cout << "> ";
-			cin >> day;	
-			SetConsoleCursorPosition(hConsole, position);
-			cout << ".";
-			cin >> mouth;
-			position.X = 5;			
-			position.Y = 5;
-			SetConsoleCursorPosition(hConsole, position);
-			cout << ".";
-			cin >> year;
-			
-			cout << "Введите цену (в рублях)" << endl;
-			cout << "Пример:1600" << endl;
-			cout << "> ";
-			cin >> cost;
-
-			cout << "Введите пункт назначения" << endl;
-			cout << "Пример:Волгоград" << endl;
-			cout << "> ";
-			cin >> point;
-
-			request = converter(day, mouth, year, cost, point);
-			cout << request << endl;
-			handler1-> handle(request); 
-			system("pause");
-			flag = false;
-			break;
-
-
-		}
-	}
-
-    
 	delete handler1;
 	delete handler2;
 	delete handler3;
