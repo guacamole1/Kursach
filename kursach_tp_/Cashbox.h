@@ -1,5 +1,8 @@
 #pragma once
 #include "Hendler.h"
+
+using namespace std;
+
 class Cashbox : public Handler {
 private:
 	int day;
@@ -8,7 +11,7 @@ private:
 
 	int cost;
 
-	string point;
+	std::string point;
 
 	Handler *next_handler;
 
@@ -16,12 +19,20 @@ public:
 	Cashbox();
 	~Cashbox();
 	void push();// ввод данных билета
-	void fpush(string str);// ввод данных в файл
-	void display(string str);// вывод данных билета
-	void fdisplay(string str);// вывод данных билета в файл
+	void fpush(std::string str);// ввод данных в файл
+	void print();// вывод данных билета
+	void fprint(std::string str);// вывод данных билета в файл
+	void change(int choice, std::string str);
+	void function(std::string request, std::string str);//поиск запроса в str
 
-	void function(string request, string str);//поиск запроса в str
+	int get_day();
+	int get_mouth();
+	int get_year();
+	int get_cost();
+	std::string get_point();
 
-	void handle(string request) override;
+	void handle(std::string request) override;
 	Handler *SetNext(Handler *handler) override;
+
+	friend std::string converter(Cashbox *ob);
 };

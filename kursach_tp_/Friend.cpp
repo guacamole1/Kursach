@@ -1,95 +1,35 @@
-#include <Windows.h>//используется для красиваого ввода даты в формате ДД.ММ.ГГ
 #include "friend.h"
 #include "Cashbox.h"
+#include "Plane.h"
+#include "Train.h"
 
 
 using namespace std;
 
-string converter(int day, int mouth, int year, int cost, string str) {
-	string request;
-	request = to_string(day) + "." + to_string(mouth) + "." + to_string(year) + " " + to_string(cost) + " " + str;
-	return request;
-}
-
-
-string menu(int flag2) {
-	COORD position;										// Объявление необходимой структуры
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+void menu() {
+	Cashbox *handler1;
+	Plane   *handler2;
+	Train   *handler3; 
 	int day;
 	int mouth;
 	int year;
 	int choice;
 	int cost;
 
-	string str1,point, request, str = "Некорректный ввод, используйте пример";
+	string point,request;
 
 	bool flag1 = true, flag = true;
+	int flag2;
+	cout << "Выберите действие 0-1";
+	cin >> flag2;
 	switch (flag2)
 	{
 	case 0: {
-		while (flag) {
-			cout << "Система запросов Касса -> Поезд -> Самолёт" << endl;
-			cout << "Введите свой запрос" << endl;
-			while (true) {
-				cout << "Введите дату:ДД.ММ.ГГ" << endl;
-				cout << "Пример:\n Дата:16.06.20 Стоимость:1999 рублей Пункт назначения:Волгоград" << endl;
-				cout << "Дата: ";
-				while (flag1) {
-					flag1 = false;
-					position.X = 5;
-					position.Y = 5;
-					SetConsoleCursorPosition(hConsole, position);
-					cin >> day;
-					if (day > 9)
-						position.X = 7;
-					else
-						position.X = 6;
-					position.Y = 5;
-					SetConsoleCursorPosition(hConsole, position);
-					cout << ".";
-					cin >> mouth;
-					if (mouth > 9) {
-						if (day < 10)
-							position.X = 9;
-						else
-							position.X = 10;
-					}
-					else
-						position.X = 8;
-					position.Y = 5;
-					SetConsoleCursorPosition(hConsole, position);
-					cout << ".";
-					cin >> year;
-					try {
-						if (!((day > 0 && day < 32) && (mouth > 0 && mouth < 32) && (year >= 20 && year < 22))) {
-							throw str;
-						}
-					}
-					catch (string str) {
-						cout << str << endl;
-						flag1 = true;
-
-					}
-				}
-				position.X = 2;
-				position.Y = 8;
-				SetConsoleCursorPosition(hConsole, position);
-				cout << "Введите цену (в рублях)" << endl;
-
-				cout << "Стоимость:";
-				while (!(cin >> cost) || (cin.peek() != '\n'))
-				{
-					cin.clear();
-					while (cin.get() != '\n');
-					cout << "Некорректный ввод,пожалуйста,используйте пример" << endl;
-				}
-
-				cout << "Введите пункт назначения" << endl;
-				cout << "Пункт назначения:";
-				cin >> point;
-				request = converter(day, mouth, year, cost, point);
-			}
-		}
+		handler1 = new Cashbox;
+		handler1->SetNext(new Plane)->SetNext(new Train);
+		handler1->push();
+		request = converter(handler1);
+		handler1->handle(request);
 		break; }
 	case 1: {
 		cout << "Выберите по какому параметру будет отправлен запрос:" << endl;
@@ -100,7 +40,7 @@ string menu(int flag2) {
 		switch (choice)
 		{
 		case 1:{
-			request = to_string(day) + "." + to_string(mouth) + "." + to_string(year);
+			
 			break; }
 		case 2:{
 			
@@ -116,5 +56,4 @@ string menu(int flag2) {
 	default:"Неверный ввод";
 		break;
 	}
-	return request;
 }
