@@ -22,8 +22,10 @@ public:
 	void fpush(std::string str);// ввод данных в файл
 	void print();// вывод данных билета
 	void fprint(std::string str);// вывод данных билета в файл
-	void change(int choice, std::string str);
-	void function(std::string request, std::string str);//поиск запроса в str
+	void change(int choice, string str, Cashbox *ob);
+	void function(std::string request, std::string str);//поиск запроса(request) в (str)файле
+	
+	int checking(string str);
 
 	int get_day();
 	int get_mouth();

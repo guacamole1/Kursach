@@ -42,10 +42,10 @@ void Cashbox::function(std::string request, std::string str) {
 	vector <std::string> vec_string1;
 	bool flag1 = false;
 	string str1;
-	int  check = 0, p = -1;
-	int pos, num = -1;
+	int  check = 0, p = 0;
+	int pos, num = -1,pp=0;
 
-	unsigned i=0,pp=0;
+	unsigned i=0;
 	ifstream fin;
 	ofstream fot;
 	string chek = "некорректный ввод";
@@ -80,35 +80,33 @@ void Cashbox::function(std::string request, std::string str) {
 		if (string::npos != pos) {
 			flag1 = true;
 			vec_string.push_back(str1);
-			cout << vec_string.size() << " " << str1;
+			cout << vec_string.size() << " " << str1 <<endl;
 		}
 	}
 	if (flag1) {
 		while (1) {
+			pp = (int)vec_string.size();
 			check = num;
 			cout << "Выберите билет,который хотите купить" << endl;
 			cout << "Для завершения обзора введите '0'" << endl;
 			cout << ">";
 			cin >> num;
 			num = num - 1;
-			pp = num;
 			try {
-				if (num >= -1 && num <= vec_string.size()) 
+				if (num <= pp) 
 				{
-					if (num == -1)
+					if (num == -1) {
 						break;
-					if (num == check && p >= 6)
+					}
+					if (num == check && p >= 6) {
 						cout << "Превышен лимит покупки одного билета" << endl;
+						continue;
+					}
 					else {
-						vec_string1.at(i) = vec_string[pp];
-						i++;
+						fot << vec_string[num] << "\n";
 						if (num == check)
 						{
 							p++;
-							if (p > 5)
-							{
-								cout << "Превышен лимит покупки одного билета" << endl;
-							}
 						}
 					}
 				}
@@ -121,10 +119,6 @@ void Cashbox::function(std::string request, std::string str) {
 				system("pause");
 				break;
 			}
-		}
-
-		for (i = 0; i < vec_string1.size(); i++) {
-			fot << vec_string[i];
 		}
 
 	}
@@ -140,44 +134,26 @@ void Cashbox::function(std::string request, std::string str) {
 
 void Cashbox::push() {
 	// ввод данных билета
-	COORD position;										// Объявление необходимой структуры для работы с кареткой в консоли
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	bool flag1 = true;
 	string  str = "Некорректный ввод, используйте пример";
 	system("cls");
 	cout << "Система запросов Касса -> Поезд -> Самолёт" << endl;
 	cout << "Введите свой запрос" << endl;
 		cout << "Введите дату:ДД.ММ.ГГ" << endl;
-		cout << "Пример:\n Дата:16.06.20 Стоимость:1999 рублей Пункт назначения:Волгоград" << endl;
-		cout << "Дата: ";
+
+		cout << "Пример:"<< endl;
+		cout << "Дата:16.06.20 Стоимость:1999 рублей Пункт назначения:Волгоград" << endl;
+		cout << "Введите дату:"<<endl;
 		while (flag1) {
 			flag1 = false;
-			position.X = 5;//меняем положение каретки для более удобного ввода
-			position.Y = 5;
-			SetConsoleCursorPosition(hConsole, position);//устанавливаем новое значение каретки
+			cout << "День:";
 			cin >> day;
-			if (day > 9)//условия с размером данных если 2значное число то передвинуть каретку на 2
-				position.X = 7;
-			else
-				position.X = 6;
-			position.Y = 5;
-			SetConsoleCursorPosition(hConsole, position);
-			cout << ".";
+			cout << "Месяц:";
 			cin >> mouth;
-			if (mouth > 9) {
-				if (day < 10)
-					position.X = 9;
-				else
-					position.X = 10;
-			}
-			else
-				position.X = 8;
-			position.Y = 5;
-			SetConsoleCursorPosition(hConsole, position);
-			cout << ".";
+			cout << "Год:";
 			cin >> year;
 			try {//с 1 по 31 / по месяцам расписывать не стал
-				if (!((day > 0 && day < 32) && (mouth > 0 && mouth < 32) && (year >= 20 && year < 22))) {
+				if (!((day > 0 && day < 32) && (mouth > 0 && mouth < 32) && (year >= 1920 && year < 1922))) {
 					throw str;
 				}
 			}
@@ -187,17 +163,15 @@ void Cashbox::push() {
 
 			}
 		}
-		position.X = 2;
-		position.Y = 8;
-		SetConsoleCursorPosition(hConsole, position);
 		cout << "Введите цену (в рублях)" << endl;
 
 		cout << "Стоимость:";
 		while (!(cin >> cost) || (cin.peek() != '\n'))//проверка на ввод целого числа в пределах типа int
 		{
 			cin.clear();
-			while (cin.get() != '\n');
-			cout << "Некорректный ввод,пожалуйста,используйте пример" << endl;
+			while (cin.get() != '\n') {
+				cout << "Некорректный ввод,пожалуйста,используйте пример" << endl;
+			}
 		}
 
 		cout << "Введите пункт назначения" << endl;
@@ -232,13 +206,15 @@ void Cashbox::fpush(std::string str)
 		system("pause");
 	}
 	push();
-	fot << day << "." << mouth << "." << year << " " << cost << " " << point << endl;
+	fot << endl << day << "." << mouth << "." << year << " " << cost << " " << point;
+	fot.close();
+	cout << "Запись успешно добавлена";
 }
 
 void Cashbox::fprint(std::string str)
 {
 	string line;
-	ifstream fout("example.txt");
+	ifstream fout(str);
 	try {
 		if (fout.is_open())
 		{
@@ -255,12 +231,140 @@ void Cashbox::fprint(std::string str)
 	}
 	catch (exception &ex) {
 		cout << ex.what() << endl << endl;
+		fout.close();
 		system("pause");
 	}
 
 }
 
-void change(int choice, std::string str) {
+void Cashbox::change(int choice,string str, Cashbox *ob) {
+	ofstream fot;
+	ifstream fin;
+	int p,i=0;
+	vector <string> vec_string;
+	string str1;
+	try {
+		fin.open(str, ios::in);
+		if (!fin.is_open()) {
+			fin.close();
+			throw exception("Файл не открылся.");
+		}
+	}
+	catch (exception& ex) {
+		cout << ex.what() << endl;
+		system("pause");
+	}
 
+	while (!fin.eof()) {
+		getline(fin, str1);//
+		vec_string.push_back(str1);
+		cout << vec_string.size() << " " << vec_string[i] << endl;
+		i++;
+		}
+	fin.close();
+	try {
+		fot.open(str);
+		if (!fot.is_open()) {
+			fot.close();
+			throw exception("Файл  не открылся.");
+		}
+	}
+	catch (exception& ex) {
+		cout << ex.what() << endl;
+		system("pause");
+	}
+	cout << "Введите необходимый номер строки ";
+	cin >> p;
+	try {
+		if (p <= 0 && p > (int)vec_string.size())
+			throw exception("Нет такой запсиси");
+	}
+	catch(exception &ex){
+		cout << ex.what() << endl;
+		system("pause");
+	}
+	if (choice == 2) {
+		cout << "Введите новые данные";
+		ob->push();
+		str1 = converter(ob);
+		vec_string.at(p - 1) = str1;
+	}
+	for (i = 0; i < vec_string.size();i++) {
+		if ((choice == 1) && (i == (p - 1))) {
+			continue;
+		}
+		else
+			if ((choice == 2) && (i == (p - 1))) {
+				if (i)
+					fot << endl;
+				fot << vec_string[i];
+			}
+			else {
+				if (i)
+					fot << endl;
+				fot << vec_string[i];
+			}
+	}
+	fot.close();
+}
 
+int checking(string str)
+{
+	ifstream fin;
+	string str1;
+	int i = 0,j=0;
+	int f = 0,m;
+	int day;
+	int mouth;
+	int cost;
+
+	string point;
+	vector <string> data;
+	const char *data1;
+	char day1[2];
+	string str2;
+	try {
+		fin.open(str, ios::in);
+		if (!fin.is_open()) {
+			fin.close();
+			throw exception("Файл не открылся.");
+		}
+		if (fin.peek() == EOF) {
+			fin.close();
+			throw exception("Файл пуст");
+		}
+	}
+	catch (exception& ex) {
+		cout << ex.what() << endl;
+		system("pause");
+	}
+
+	while (!fin.eof()) {
+		try {
+			for (i = 0; i < 5; i++) {
+				getline(fin, str1,' ');
+				data.push_back(str);
+			}
+		}
+		catch (...) {
+			cout << "Записи в файле не соответствуют требованиям";
+		}
+		for (i = 0; i < (int)data.size(); i++) {
+			if (i == 0 || i % 5 == 0)//разбор первого слова
+			{
+				data1 = data[i].c_str();
+				for (m=0;m>3;m++) {
+					if (f <=2) {
+						for (j = 0; data1[j] == '.'; j++) {
+							str2 = to_string(data1[j-1]) + to_string(data1[j]);
+							f++;
+						}
+					}
+
+				}
+				f = 0;
+
+			}
+		}
+	}
 }
