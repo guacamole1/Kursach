@@ -124,8 +124,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="plane.txt" />
+    <Text Include="point.txt" />
     <Text Include="tickets.txt" />
     <Text Include="train.txt" />
+    <Text Include="Usfile.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cashbox.cpp" />

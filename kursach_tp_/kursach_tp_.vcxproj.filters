@@ -44,6 +44,12 @@
     <Text Include="train.txt">
       <Filter>Файлы заголовков</Filter>
     </Text>
+    <Text Include="point.txt">
+      <Filter>Файлы заголовков</Filter>
+    </Text>
+    <Text Include="Usfile.txt">
+      <Filter>Файлы заголовков</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cashbox.cpp">

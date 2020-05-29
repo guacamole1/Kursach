@@ -2,15 +2,15 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <Windows.h>//используется для красиваого ввода даты в формате ДД.ММ.ГГ
+#include <Windows.h>
 
 using namespace std;
 
 Cashbox::Cashbox(){
-	day = 0;
-	mouth = 0;
-	year = 0;
-	cost = 0;
+	day = "";
+	mouth = "";
+	year = "";
+	cost = "";
 	point = "";
 	next_handler = nullptr;
 }
@@ -18,12 +18,6 @@ Cashbox::Cashbox(){
 Cashbox::~Cashbox(){
 	delete next_handler;
 }
-
-int Cashbox::get_day() { return day; }
-int Cashbox::get_mouth(){ return mouth; }
-int Cashbox::get_year(){ return year; }
-int Cashbox::get_cost(){ return cost; }
-std::string Cashbox::get_point() { return point; }
 
 Handler* Cashbox:: SetNext(Handler *handler) {
 
@@ -48,35 +42,40 @@ void Cashbox::function(std::string request, std::string str) {
 	unsigned i=0;
 	ifstream fin;
 	ofstream fot;
-	string chek = "некорректный ввод";
 
 	try {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
 			fin.close();
-			throw exception("Файл не открылся.");
+			throw exception("File not open");
 		}
 	}
 	catch (exception& ex) {
 		cout << ex.what() << endl;
+		fin.close();
+		cout << "Please enter your request, it will be processed when the problems are fixed." << endl;
+		fpush("raw_requests.txt");
 		system("pause");
+		return;
 	}
 
 	try {
 		fot.open("tickets.txt", ios_base::app);
 		if (!fot.is_open()) {
 			fot.close();
-			throw exception("Файл 'билеты' не открылся.");
+			throw exception("File 'tickets' not open");
 		}
 	}
 	catch (exception& ex) {
 		cout << ex.what() << endl;
+		fin.close();
 		system("pause");
+		return;
 	}
 
 	while (!fin.eof()) {
 		getline(fin, str1);
-		pos = str1.find(request);//ищем конвертированную запись целую/отдельный параметр
+		pos = str1.find(request);//ищем запрошеную запись целую/отдельный параметр
 		if (string::npos != pos) {
 			flag1 = true;
 			vec_string.push_back(str1);
@@ -87,19 +86,19 @@ void Cashbox::function(std::string request, std::string str) {
 		while (1) {
 			pp = (int)vec_string.size();
 			check = num;
-			cout << "Выберите билет,который хотите купить" << endl;
-			cout << "Для завершения обзора введите '0'" << endl;
+			cout << "Choose the ticket you want to buy" << endl;
+			cout << "To complete the review, enter '0'" << endl;
 			cout << ">";
 			cin >> num;
 			num = num - 1;
 			try {
-				if (num <= pp) 
+				if (num <= pp && num >=-1) 
 				{
 					if (num == -1) {
 						break;
 					}
 					if (num == check && p >= 6) {
-						cout << "Превышен лимит покупки одного билета" << endl;
+						cout << "One ticket purchase limit exceeded" << endl;
 						continue;
 					}
 					else {
@@ -112,10 +111,10 @@ void Cashbox::function(std::string request, std::string str) {
 				}
 
 				else
-					throw chek;
+					throw ;
 			}
-			catch (string str) {
-				cout << str << endl;
+			catch (...) {
+				cout << "Please select a ticket from the specified interval." << endl;
 				system("pause");
 				break;
 			}
@@ -126,7 +125,7 @@ void Cashbox::function(std::string request, std::string str) {
 		if(next_handler)
 			next_handler->handle(request);
 		else
-			cout << "Не дал результатов" << endl; system("pause");
+			cout << "No results" << endl; system("pause");
 	}
 	fin.close();
 	fot.close();
@@ -135,59 +134,79 @@ void Cashbox::function(std::string request, std::string str) {
 void Cashbox::push() {
 	// ввод данных билета
 	bool flag1 = true;
-	string  str = "Некорректный ввод, используйте пример";
-	system("cls");
-	cout << "Система запросов Касса -> Поезд -> Самолёт" << endl;
-	cout << "Введите свой запрос" << endl;
-		cout << "Введите дату:ДД.ММ.ГГ" << endl;
-
-		cout << "Пример:"<< endl;
-		cout << "Дата:16.06.20 Стоимость:1999 рублей Пункт назначения:Волгоград" << endl;
-		cout << "Введите дату:"<<endl;
-		while (flag1) {
-			flag1 = false;
-			cout << "День:";
-			cin >> day;
-			cout << "Месяц:";
-			cin >> mouth;
-			cout << "Год:";
-			cin >> year;
-			try {//с 1 по 31 / по месяцам расписывать не стал
-				if (!((day > 0 && day < 32) && (mouth > 0 && mouth < 32) && (year >= 1920 && year < 1922))) {
+	string  str = "Incorrect input, use an example";
+	int check;
+	cout << "Request system Cashier -> Train -> Plane" << endl;
+	cout << "Input your request" << endl;
+		cout << "Example:"<< endl;
+		cout << "Day:12 Month:12 Year:2020 Cost:1999 Destination:Volgograd" << endl;
+		cout << "Input date: (1 -31) "<<endl;
+		while (flag1)
+		{
+			try {
+				cout << "Day:";
+				cin >> day;     
+				cout << "Month:";
+				cin >> mouth; 
+				cout << "Year:";
+				cin >> year; 
+				//проверка ввода параметров даты в заданых интервалах
+				if (!((stoi(day) > 0 && stoi(day) < 32) && (stoi(mouth) > 0 && stoi(mouth) < 32) && (stoi(year) >= 2020 && stoi(year) < 2022))) {
 					throw str;
 				}
+				flag1 = false;
 			}
-			catch (string str) {
-				cout << str << endl;
+			catch (...) {
+				cout << "Incorrect entry, please use an example" << endl;
 				flag1 = true;
-
+				system("pause");
 			}
 		}
-		cout << "Введите цену (в рублях)" << endl;
-
-		cout << "Стоимость:";
-		while (!(cin >> cost) || (cin.peek() != '\n'))//проверка на ввод целого числа в пределах типа int
-		{
-			cin.clear();
-			while (cin.get() != '\n') {
-				cout << "Некорректный ввод,пожалуйста,используйте пример" << endl;
+		flag1 = true;
+		cout << "Input the cost" << endl;
+		while (1) {
+			cout << "Cost:";
+			cin >> cost;
+			try {
+				check = stoi(cost);
 			}
+			catch (...) {
+				cout << "You must enter a numerical value" << endl;
+				continue;
+			}
+			if (check <= 0) {
+				cout << "Cost cannot be less than or equal to zero"; continue;
+			}
+			else
+				break;
+		}
+		cout << "Input destination:" << endl;
+		while (1) {
+			cout << "City:";
+			cin >> point;
+			check = check_point(point);
+			try {
+				if (check == 0)
+					throw exception("This city is not in the list of 'Destination'");
+			}
+			catch (exception &ex)
+			{
+				cout << ex.what() << endl;
+				system("pause");//поиск не дал результатов, вывод списка городов по которым следует самолёт/поезд
+				fprint("point.txt");//чтобы пользователь мог сам выбрать
+				continue;
+			}
+			break;
 		}
 
-		cout << "Введите пункт назначения" << endl;
-		cout << "Пункт назначения:";
-		cin >> point;
-}
 
-void Cashbox::print() {
-	cout << "Дата:" << day << "." << mouth << "." << year << " " << "Стоимость:" << cost << " " << "Пункт назначения:" << point << endl;
 }
 
 
 std::string converter(Cashbox *ob) {
 	std::string request ;
 	
-	request =to_string(ob->day) + "." + to_string(ob->mouth) + "." + to_string(ob->year) + " " + to_string(ob->cost) + " " + ob->point;
+	request ="Day:" + ob->day + " " + "Month:" + ob->mouth + " " + "Year:" + ob->year + " " + "Cost:" +ob->cost + " " + "Destination:" + ob->point;
 	return request;
 }
 
@@ -198,43 +217,52 @@ void Cashbox::fpush(std::string str)
 		fot.open(str, ios_base::app);
 		if (!fot.is_open()) {
 			fot.close();
-			throw exception("Файл не открылся.");
+			throw exception("File not open.");
 		}
 	}
 	catch (exception& ex) {
+		fot.close();
 		cout << ex.what() << endl;
 		system("pause");
+		return;
 	}
 	push();
-	fot << endl << day << "." << mouth << "." << year << " " << cost << " " << point;
+	fot << endl <<"Day:"<< day << " " << "Month:" << mouth << "Year:" << year << " " << "Cost:" << cost << " " << "Destination" << point;
 	fot.close();
-	cout << "Запись успешно добавлена";
+	cout << "Record successfully added.";
 }
 
 void Cashbox::fprint(std::string str)
 {
 	string line;
-	ifstream fout(str);
+	ifstream fout(str,ios_base::in);
 	try {
-		if (fout.is_open())
-		{
-			while (!fout.eof())
-			{
-				getline(fout, line);
-				cout << line << endl;
-			}
-			fout.close();
-		}
-
-		else
-			throw exception("Файл не открылся");
+		if (!fout.is_open())
+			throw exception("File not open.");
 	}
 	catch (exception &ex) {
 		cout << ex.what() << endl << endl;
 		fout.close();
 		system("pause");
+		return;
 	}
 
+	try {
+		if (fout.peek()==EOF)
+			throw exception("File empty.");
+	}
+	catch (exception &ex) {
+		cout << ex.what() << endl << endl;
+		fout.close();
+		system("pause");
+		return;
+	}
+		while (!fout.eof())
+		{
+			getline(fout, line);
+			cout << line << endl;
+		}
+		fout.close();
 }
 
 void Cashbox::change(int choice,string str, Cashbox *ob) {
@@ -247,12 +275,14 @@ void Cashbox::change(int choice,string str, Cashbox *ob) {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
 			fin.close();
-			throw exception("Файл не открылся.");
+			throw exception("File not open.");
 		}
 	}
 	catch (exception& ex) {
+		fin.close();
 		cout << ex.what() << endl;
 		system("pause");
+		return;
 	}
 
 	while (!fin.eof()) {
@@ -266,25 +296,31 @@ void Cashbox::change(int choice,string str, Cashbox *ob) {
 		fot.open(str);
 		if (!fot.is_open()) {
 			fot.close();
-			throw exception("Файл  не открылся.");
+			throw exception("File not open.");
+
 		}
 	}
 	catch (exception& ex) {
+		fot.close();
 		cout << ex.what() << endl;
 		system("pause");
+		return;
 	}
-	cout << "Введите необходимый номер строки ";
-	cin >> p;
-	try {
-		if (p <= 0 && p > (int)vec_string.size())
-			throw exception("Нет такой запсиси");
-	}
-	catch(exception &ex){
-		cout << ex.what() << endl;
-		system("pause");
+	cout << "Input the required line number: ";//введите строку для необходимых действий(изменения)
+	while (1) {
+		cin >> p;
+		try {
+			if (p <= 0 && p > (int)vec_string.size())
+				throw exception("No such record");
+		}
+		catch (exception &ex) {
+			cout << ex.what() << endl;
+			system("pause");
+		}
+		break;
 	}
 	if (choice == 2) {
-		cout << "Введите новые данные";
+		cout << "Input new data";
 		ob->push();
 		str1 = converter(ob);
 		vec_string.at(p - 1) = str1;
@@ -308,63 +344,137 @@ void Cashbox::change(int choice,string str, Cashbox *ob) {
 	fot.close();
 }
 
-int checking(string str)
+int Cashbox::checking(string str)
 {
 	ifstream fin;
-	string str1;
-	int i = 0,j=0;
-	int f = 0,m;
-	int day;
-	int mouth;
-	int cost;
-
-	string point;
-	vector <string> data;
-	const char *data1;
-	char day1[2];
-	string str2;
+	int i,j;
+	string str1 ="";
+	vector <string> line;
+	bool flag= true;
+	char a[80];
 	try {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
 			fin.close();
-			throw exception("Файл не открылся.");
+			throw exception("File not open");
 		}
-		if (fin.peek() == EOF) {
+	}
+	catch (exception& ex) {
+		fin.close();
+		cout << ex.what() << endl;
+		system("pause");
+		return 0;
+	}
+	for (i = 0; i < 80; i++) {
+		a[i] = 0;
+	}
+	i = 0;
+	try {
+		while (!fin.eof()) {
+
+				fin.getline(a, 80);
+				try {
+					if (sizeof(a) >= 80)
+						throw exception("Out of need size of string");
+			}
+			catch (exception &ex)
+			{
+				cout << ex.what() <<endl;
+				system("pause");
+				return 0;
+			}
+			while (1) {
+				if (a[i] == 0) {
+					line.push_back(str1);
+					break;
+				}
+				if (a[i] != ' ' ) {
+					str1 = str1 + a[i];
+					i++;
+				}
+				else
+				{
+					line.push_back(str1);
+					str1 = "";
+					i++;
+				}
+				}
+			for (i = 0; i < 80; i++) {
+				a[i] =0;
+			}
+			str1 = "";
+			i = 0;
+			}
+	}
+	catch (...) {
+		cout << "Eror in procces writing file" << endl;
+		cout << "Pls,try again" << endl;
+		system("pause");
+		return 0;
+	}
+
+	for (i = 0; i < (line.size() / 5); i++)
+	{			
+		try{
+				if ((stoi(line[i].substr(5, line[i].length())) <= 0) && (stoi(line[i].substr(5, line[i].length())) > 31)) {
+					throw exception("Incorrect date record (day)");
+				}
+				i++;
+				if ((stoi(line[i].substr(7, line[i].length())) <= 0) && (stoi(line[i].substr(7, line[i].length())) > 12)) {
+					throw exception("Incorrect date record (month)");
+				}
+				i++;
+				if ((stoi(line[i].substr(6, line[i].length())) <= 2020) && (stoi(line[i].substr(6, line[i].length())) > 2021)) {
+					throw exception("Incorrect date record (year)");
+				}
+				i++;
+				if ((stoi(line[i].substr(6, line[i].length())) <= 0) && (stoi(line[i].substr(6, line[i].length())) > 700000)) {
+					throw exception("Incorrect  cost record");
+				}
+				i++;
+				if (check_point(line[i].substr(13, line[i].length())) == 0) {
+					throw exception("Incorrect Destination record");
+				}
+		}
+		catch (exception &ex) {
+			cout << ex.what() << endl;
+			system("pause");
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int Cashbox::check_point(string str) {
+	ifstream fin;
+	int pos;
+	string str2;
+	try {
+		fin.open("point.txt", ios::in);
+		if (!fin.is_open()) {
 			fin.close();
-			throw exception("Файл пуст");
+			throw exception("File not open.");
 		}
 	}
 	catch (exception& ex) {
 		cout << ex.what() << endl;
 		system("pause");
+		return 2;
 	}
 
 	while (!fin.eof()) {
-		try {
-			for (i = 0; i < 5; i++) {
-				getline(fin, str1,' ');
-				data.push_back(str);
-			}
-		}
-		catch (...) {
-			cout << "Записи в файле не соответствуют требованиям";
-		}
-		for (i = 0; i < (int)data.size(); i++) {
-			if (i == 0 || i % 5 == 0)//разбор первого слова
-			{
-				data1 = data[i].c_str();
-				for (m=0;m>3;m++) {
-					if (f <=2) {
-						for (j = 0; data1[j] == '.'; j++) {
-							str2 = to_string(data1[j-1]) + to_string(data1[j]);
-							f++;
-						}
-					}
-
-				}
-				f = 0;
-
-			}
+		getline(fin, str2);
+		pos = str2.find(str);//ищем конвертированную запись целую/отдельный параметр
+		if (string::npos != pos) {
+			return 1;
 		}
 	}
+	return 0;
+}
+
+void Cashbox::set_name(string userfile) {
+	UserFile = userfile;
+}
+string Cashbox::get_name() {
+	return UserFile;
 }

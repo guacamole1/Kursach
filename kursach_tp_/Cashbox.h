@@ -5,36 +5,37 @@ using namespace std;
 
 class Cashbox : public Handler {
 private:
-	int day;
-	int mouth;
-	int year;
+	string day;//дата
+	string mouth;
+	string year;
 
-	int cost;
+	string cost;//стоимость
 
-	std::string point;
+	string point;//пункт назначения
 
-	Handler *next_handler;
+	string UserFile;
+
+	Handler *next_handler;//ссылка на следущий обработчик
 
 public:
+
 	Cashbox();
 	~Cashbox();
 	void push();// ввод данных билета
 	void fpush(std::string str);// ввод данных в файл
-	void print();// вывод данных билета
+
 	void fprint(std::string str);// вывод данных билета в файл
 	void change(int choice, string str, Cashbox *ob);
 	void function(std::string request, std::string str);//поиск запроса(request) в (str)файле
 	
-	int checking(string str);
+	int checking(string str);//проверка города(следует ли поезд/самолёт в введённый ользователем город
 
-	int get_day();
-	int get_mouth();
-	int get_year();
-	int get_cost();
-	std::string get_point();
+	void set_name(string userfile);//добавить путь к файлу
+	string get_name();//
 
-	void handle(std::string request) override;
-	Handler *SetNext(Handler *handler) override;
+	int check_point(string str);// проверка содержется ли город в списке 
+	void handle(std::string request) override;//переопределяем функцию-обработчик
+	Handler *SetNext(Handler *handler) override;//устанавливаем указатель на сл. обработчика
 
-	friend std::string converter(Cashbox *ob);
+	friend std::string converter(Cashbox *ob);//создание запроса по шаблону
 };

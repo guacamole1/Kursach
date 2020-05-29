@@ -1,0 +1,6 @@
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kaz dgdf dfg dfg df dfh dfhdfh 
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:0 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kaza
