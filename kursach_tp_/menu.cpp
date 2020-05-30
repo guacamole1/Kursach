@@ -157,6 +157,10 @@ void menu() {
 					handler1->fprint(filename2);
 					cout << "Tickets:" << endl;
 					handler1->fprint(filename3);
+					if (ob1.get_name() != "") {
+						cout << "Your file:" << endl;
+						handler1->fprint(ob1.get_name());
+					}
 					delete handler1;
 					system("pause");
 					break;
@@ -358,7 +362,7 @@ void menu() {
 			cout << "4. Your file" << endl;
 			cout << "0 - Back" << endl;;
 			while (1) {
-				cout << "Select an action 1-3:  ";
+				cout << "Select an action 0-4:  ";
 				cin >> str_but;
 				try {
 					but[6] = stoi(str_but);

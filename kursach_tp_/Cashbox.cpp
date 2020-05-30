@@ -46,7 +46,6 @@ void Cashbox::function(int flag, std::string request, std::string str) {
 	try {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
-			fin.close();
 			throw exception("File not open");
 		if(fin.peek() == EOF)
 			throw exception("File is empty");
@@ -242,7 +241,7 @@ void Cashbox::fpush(std::string str)
 	push();
 	fot << endl <<"Day:"<< day << " " << "Month:" << mouth << " " << "Year:" << year << " " << "Cost:" << cost << " " << "Destination:" << point;
 	fot.close();
-	cout << "Record successfully added.";
+	cout << "Record successfully added." <<endl;
 }
 
 void Cashbox::fprint(std::string str)
@@ -355,6 +354,7 @@ void Cashbox::change(int choice,string str, Cashbox *ob) {
 			}
 	}
 	fot.close();
+	cout << "File successfully updated" << endl;
 }
 
 int Cashbox::checking(string str)
@@ -368,8 +368,10 @@ int Cashbox::checking(string str)
 	try {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
-			fin.close();
 			throw exception("File not open");
+		}
+		if (fin.peek() == EOF) {
+			throw exception("File is empty");
 		}
 	}
 	catch (exception& ex) {

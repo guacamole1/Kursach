@@ -1,4 +1,2 @@
 Day:01 Month:2 Year:2021 Cost:12312 Destination:Gelendzhik
-Day:03 Month:11 Year:2020 Cost:1232 Destination:Kazan
-Day:15 Month:4 Year:2020 Cost:1232 Destination:Irkutsk
 Day:11 Month:06 Year:2020 Cost:1232 Destination:Kazan

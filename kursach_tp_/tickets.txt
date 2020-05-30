@@ -1,5 +1,5 @@
 Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
-Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:01 Month:05 Year:2020 Cost:5000 Destination:Ivanovo
 Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
 Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
 Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
