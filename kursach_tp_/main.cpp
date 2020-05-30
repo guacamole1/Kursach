@@ -4,7 +4,7 @@
 #include "Cashbox.h"
 #include "Plane.h"
 #include "Train.h"
-#include "friend.h"
+#include "menu.h"
 
 
 using namespace std;
@@ -12,8 +12,6 @@ using namespace std;
 int main()
 
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
 	menu();
 	return 0;
 }

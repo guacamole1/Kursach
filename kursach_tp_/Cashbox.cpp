@@ -24,7 +24,7 @@ Handler* Cashbox:: SetNext(Handler *handler) {
 	this-> next_handler = handler;
 	return handler;
 }
-void Cashbox::handle(int flag,std::string request) {
+void Cashbox::handle(int flag,std::string request) {// Возврат обработчика отсюда позволит связать обработчики простым способом Касса -> 
 	if (this->next_handler) {
 		return this->next_handler->handle(flag,request);
 	}
@@ -152,7 +152,7 @@ void Cashbox::push() {
 	cout << "Request system Cashier -> Train -> Plane" << endl;
 	cout << "Input your request" << endl;
 		cout << "Example:"<< endl;
-		cout << "Day:12 Month:12 Year:2020 Cost:1999 Destination:Volgograd" << endl;
+		cout << "Day:12 Month:12 Year:2020 Cost:1999 Destination:Ivanovo" << endl;
 		cout << "Input date: (1 -31) "<<endl;
 		while (flag1)
 		{

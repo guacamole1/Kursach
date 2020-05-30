@@ -116,8 +116,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cashbox.h" />
-    <ClInclude Include="friend.h" />
-    <ClInclude Include="Hendler.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="Handler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Train.h" />
@@ -132,7 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cashbox.cpp" />
-    <ClCompile Include="Friend.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Plane.cpp" />

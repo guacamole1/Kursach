@@ -11,7 +11,7 @@
 // TODO: add headers that you want to pre-compile here
 #include <iostream>
 #include <fstream>
-#include <Windows.h>//используется для красиваого ввода даты в формате ДД.ММ.ГГ
+#include <string>
 #include <vector>
 
 #endif //PCH_H

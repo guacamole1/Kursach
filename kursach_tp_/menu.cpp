@@ -1,4 +1,4 @@
-#include "friend.h"
+#include "menu.h"
 #include "Cashbox.h"
 #include "Plane.h"
 #include "Train.h"
@@ -12,8 +12,6 @@ void menu() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	Cashbox *handler1;
-	Plane   *handler2;
-	Train   *handler3;
 	Cashbox ob1;
 	string day;
 	string mouth;
@@ -60,7 +58,7 @@ void menu() {
 			while (flags[1]) {
 				system("cls");
 				cout << "1 - Find a request by all parameters" << endl;
-				cout << "2 - Find a request by one parameter" << endl;
+				cout << "2 - Find a request by key word" << endl;
 				cout << "3 - Use your file" << endl;
 				cout << "0 - Back" << endl;;
 				while (1) {
@@ -115,7 +113,11 @@ void menu() {
 					flags[1] = 0;
 					break;
 				}
-
+				default: {
+					cout << "Incorrect,try again" << endl;
+					system("pause");
+					break;
+				}
 				}
 			}
 			break;
@@ -201,6 +203,7 @@ void menu() {
 				default:
 				{
 					cout << "Incorrect input" << endl;
+					system("pause");
 					break; }
 				}
 			}
@@ -271,6 +274,7 @@ void menu() {
 					break; }
 				default: {
 					cout << "Incorrect input" << endl;
+					system("pause");
 					break; }
 				}
 			}
@@ -340,6 +344,7 @@ void menu() {
 			default:
 			{
 				cout << "Incorrect input" << endl;
+				system("pause");
 				break; }
 			}
 			break;
@@ -407,6 +412,7 @@ void menu() {
 			}
 			default: {
 				cout << "Incorrect input" << endl;
+				system("pause");
 				break; }
 			}
 			break;

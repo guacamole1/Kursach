@@ -1,0 +1,4 @@
+Day:12 Month:12 Year:2020 Cost:12312 Destination:Kazan
+Day:01 Month:06 Year:2021 Cost:12312 Destination:Ivanovo
+Day:11 Month:4 Year:2020 Cost:1212 Destination:Sochi
+Day:04 Month:3 Year:2021 Cost:1312 Destination:Anapa
