@@ -3,10 +3,11 @@
 
 using namespace std;
 
-void Plane::handle(std::string request) {
-	string str = "plane.txt";
-	cout << "Обработчик 'Самолёт':" << endl;
-	function(request, str);
+void Plane::handle(int flag, std::string request) {
+	cout << "Handle 'Plane':" << endl;
+	function(flag,request, file);
 }
-Plane::Plane(){}
+Plane::Plane(){
+	file = "plane.txt";
+}
 Plane::~Plane() {}

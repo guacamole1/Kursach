@@ -1,11 +1,11 @@
 #pragma once
 #include "Cashbox.h"
 class Plane : public Cashbox {
-protected:
-
+private:
+	string file;
 public:
 	Plane();
 	~Plane();
-	void handle(std::string request) override;
+	void handle(int flag, std::string request) override;
 
 };

@@ -15,177 +15,266 @@ void menu() {
 	Plane   *handler2;
 	Train   *handler3;
 	Cashbox ob1;
-	int day;
-	int mouth;
-	int year;
-	int choice;
-	int cost;
+	string day;
+	string mouth;
+	string year;
+	int i;
+	string cost;
 	string filename = "train.txt";
 	string filename2 = "plane.txt";
 	string filename3 = "tickets.txt";
 	string point, request;
 	bool flag1 = true, flag = true;
-	int but1, bu2, but3;
-	int check;
+	string str_but;
+	int but[10];
+	int flags[6];
 	while (flag) {
-	system("cls");
-	cout << "User's menu:" << endl;
-	cout << "1. Make request Cashier -> Train -> Plane" << endl;
-	cout << "2. Print ticket's " << endl;
-	cout << "3. Add ticket " << endl;
-	cout << "4. Remove ticket " << endl;
-	cout << "5. Change ticket's data" << endl;
-	cout << "6. Add your file to the program input" << endl;
-	cout << "0. Exit" << endl;
-	cout << "Select an action 0-6:  ";
-		cin >> but1;
-		switch (but1)
+		for (i = 0; i < 6; i++)
+			flags[i] = 1;
+		system("cls");
+		cout << "User's menu:" << endl;
+		cout << "1. Make request Cashier -> Train -> Plane" << endl;
+		cout << "2. Print ticket's " << endl;
+		cout << "3. Add ticket " << endl;
+		cout << "4. Remove ticket " << endl;
+		cout << "5. Change ticket's data" << endl;
+		cout << "6. Add your file to the program input" << endl;
+		cout << "0. Exit" << endl;
+		while (1) {
+			cout << "Select an action 0-6:  ";
+			cin >> str_but;
+			try {
+				but[0] = stoi(str_but);
+			}
+			catch (...) {
+				cout << "Please enter a numerical value" << endl;
+				system("pause");
+				continue;
+			}
+			break;
+		}
+		switch (but[0])
 		{
 		case 1:
 		{
-			system("cls");
-			while (1) {
+			while (flags[1]) {
 				system("cls");
 				cout << "1 - Find a request by all parameters" << endl;
 				cout << "2 - Find a request by one parameter" << endl;
+				cout << "3 - Use your file" << endl;
 				cout << "0 - Back" << endl;;
-				cout << "Select an action 0-2: ";
-				cin >> but1;
-				switch (but1)
-				{
-				case 1: {
-					handler1 = new Cashbox;
-					handler1->SetNext(new Plane)->SetNext(new Train);
-					handler1->push();
-					request = converter(handler1);
-					handler1->handle(request);
-					delete handler1;
-					break; }
-				case 2: {
-					system("cls");
-					handler1 = new Cashbox;
-					handler1->SetNext(new Plane)->SetNext(new Train);
-					cout << "Выберите по какому параметру будет отправлен запрос:" << endl;
-					cout << "1 - Date" << endl;
-					cout << "2 - Cost" << endl;
-					cout << "3 - Destination" << endl;
-					cout << "Select an action 1-3: ";
-					cin >> choice;
-					switch (choice)
-					{
-					case 1: {
-						system("cls");
-						cout << "Day (1 -31): ";
-						cin >> day;
-						cout << "Month (1 -12): ";
-						cin >> mouth;
-						cout << "Year (20 - 21): ";
-						cin >> year;
-						request = to_string(day) + to_string(mouth) + to_string(year);
-						handler1->handle(request);
-						break; }
-					case 2: {
-						cout << "Cost: ";
-						cin >> cost;
-						request = to_string(cost);
-						handler1->handle(request);
-						break; }
-					case 3: {
-						cout << "Destination: ";
-						cin >> point;
-						handler1->handle(point);
-						break; }
-					default:"Incorrect input";
-						break;
+				while (1) {
+					cout << "Select an action 0-3:  ";
+					cin >> str_but;
+					try {
+						but[1] = stoi(str_but);
+					}
+					catch (...) {
+						cout << "Please enter a numerical value" << endl;
+						system("pause");
+						continue;
 					}
 					break;
 				}
-				default:"Incorrect input";
+				switch (but[1])
+				{
+				case 1: {
+					handler1 = new Cashbox;
+					handler1->SetNext(new Train)->SetNext(new Plane);
+					handler1->push();
+					request = converter(handler1);
+					handler1->handle(1, request);
+					delete handler1;
 					break;
 				}
+				case 2: {
+					system("cls");
+					cout << "Input key word for search:" << endl;
+					handler1 = new Cashbox;
+					handler1->SetNext(new Train)->SetNext(new Plane);
+					cin >> day;
+					handler1->handle(2, request);
+					delete handler1;
+					break;
+				}
+				case 3: {
+					if (ob1.get_name() == "") {
+						cout << "Not find your file,pls try again"<< endl;
+						system("pause");
+						break;
+					}
+					handler1 = new Cashbox;
+					handler1->SetNext(new Train)->SetNext(new Plane);
+					handler1->push();
+					request = converter(handler1);
+					handler1->function(1,request,ob1.get_name());
+					delete handler1;
+					break;
+				}
+				case 0: {
+					flags[1] = 0;
+					break;
+				}
+
+				}
 			}
-		}
+			break;
+			}
 		case 2: {
+			while (flags[3]) {
+			system("cls");
 			handler1 = new Cashbox;
-			cout << "Choose which tickets you want to output" << endl;
+			cout << "Choose which tickets you want to print" << endl;
 			cout << "1. All" << endl;
 			cout << "2. Train" << endl;
 			cout << "3. Plane" << endl;
 			cout << "4. Tickets" << endl;
-			cin >> but3;
-			switch (but3)
-			{
-			case 1: {
-				system("cls");
-				cout << "Train:" << endl;
-				handler1->fprint(filename);
-				cout << "Plane:" << endl;
-				handler1->fprint(filename2);
-				cout << "Tickets:" << endl;
-				handler1->fprint(filename3);
-				delete handler1;
-				system("pause");
-				break;
+			cout << "4. Tickets" << endl;
+			cout << "5. Your file" << endl;
+			cout << "0 - Back" << endl;;
+				while (1) {
+					cout << "Select an action 0-5:  ";
+					cin >> str_but;
+					try {
+						but[3] = stoi(str_but);
+					}
+					catch (...) {
+						cout << "Please enter a numerical value" << endl;
+						system("pause");
+						continue;
+					}
+					break;
+				}
+				switch (but[3])
+				{
+				case 1: {
+					system("cls");
+					cout << "Train:" << endl;
+					handler1->fprint(filename);
+					cout << "Plane:" << endl;
+					handler1->fprint(filename2);
+					cout << "Tickets:" << endl;
+					handler1->fprint(filename3);
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 2: {
+					system("cls");
+					cout << "Train:" << endl;
+					handler1->fprint(filename);
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 3: {
+					system("cls");
+					cout << "Plane:" << endl;
+					handler1->fprint(filename2);
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 4: {
+					system("cls");
+					cout << "Tickets:" << endl;
+					handler1->fprint(filename3);
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 5:
+				{
+					if (ob1.get_name() == "") {
+						cout << "Not find your file,pls try again" << endl;
+						system("pause");
+						break;
+					}
+					system("cls");
+					cout << "Your file:" << endl;
+					handler1->fprint(ob1.get_name());
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 0: {flags[3] = 0; break; }
+				default:
+				{
+					cout << "Incorrect input" << endl;
+					break; }
+				}
 			}
-			case 2: {
-				system("cls");
-				cout << "Train:" << endl;
-				handler1->fprint(filename);
-				delete handler1;
-				break;
-			}
-			case 3: {
-				system("cls");
-				cout << "Plane:" << endl;
-				handler1->fprint(filename2);
-				delete handler1;
-				break;
-			}
-			case 4: {
-				system("cls");
-				cout << "Tickets:" << endl;
-				handler1->fprint(filename3);
-				delete handler1;
-				break;
-			}
-			default:
-				break;
-			}
+			break;
 		}
 		case 3: {
+			while (flags[4]) {
 			system("cls");
 			cout << "Choose where you want to add a ticket" << endl;
 			cout << "1. Train" << endl;
 			cout << "2. Plane" << endl;
 			cout << "3. Tickets" << endl;
-			cin >> but3;
-			switch (but3)
-			{
-			case 1: {
-				system("cls");
-				handler1 = new Cashbox;
-				handler1->fpush(filename);
-				delete handler1;
-				system("pause");
-				break;
+			cout << "4. Your file" << endl;
+			cout << "0 - Back" << endl;;
+				while (1) {
+					cout << "Select an action 0-4:  ";
+					cin >> str_but;
+					try {
+						but[4] = stoi(str_but);
+					}
+					catch (...) {
+						cout << "Please enter a numerical value" << endl;
+						system("pause");
+						continue;
+					}
+					break;
+				}
+				switch (but[4])
+				{
+				case 1: {
+					system("cls");
+					handler1 = new Cashbox;
+					handler1->fpush(filename);
+					delete handler1;
+					system("pause");
+					break;
+				}
+				case 2: {
+					system("cls");
+					handler1 = new Cashbox;
+					handler1->fpush(filename2);
+					delete handler1;
+					system("pause");
+					break; }
+				case 3: {
+					system("cls");
+					handler1 = new Cashbox;
+					handler1->fpush(filename3);
+					delete handler1;
+					system("pause");
+					break; }
+				case 4:
+				{
+					if (ob1.get_name() == "") {
+						cout << "Not find your file,pls try again" << endl;
+						system("pause");
+						break;
+					}
+					system("cls");
+					handler1 = new Cashbox;
+					handler1->fpush(ob1.get_name());
+					delete handler1;
+					system("pause");
+					break;
+
+				}
+				case 0: {flags[4] = 0;
+					break; }
+				default: {
+					cout << "Incorrect input" << endl;
+					break; }
+				}
 			}
-			case 2: {
-				system("cls");
-				handler1 = new Cashbox;
-				handler1->fpush(filename2);
-				delete handler1;
-				system("pause");
-				break; }
-			case 3: {
-				system("cls");
-				handler1 = new Cashbox;
-				handler1->fpush(filename3);
-				delete handler1;
-				system("pause");
-				break; }
-			default:"Incorrect input";
-				break;
-			}
+			break;
 		}
 		case 4: {
 			system("cls");
@@ -193,13 +282,27 @@ void menu() {
 			cout << "1. Train" << endl;
 			cout << "2. Plane" << endl;
 			cout << "3. Tickets" << endl;
-			cin >> but3;
-			switch (but3)
+			cout << "4. Your file" << endl;
+			cout << "0 - Back" << endl;;
+			while (1) {
+				cout << "Select an action 0-4:  ";
+				cin >> str_but;
+				try {
+					but[5] = stoi(str_but);
+				}
+				catch (...) {
+					cout << "Please enter a numerical value" << endl;
+					system("pause");
+					continue;
+				}
+				break;
+			}
+			switch (but[5])
 			{
 			case 1: {
 				system("cls");
 				handler1 = new Cashbox;
-				handler1->change(2, filename2, handler1);
+				handler1->change(1, filename, handler1);
 				delete handler1;
 				system("pause");
 				break;
@@ -207,23 +310,110 @@ void menu() {
 			case 2:
 			{
 				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(1, filename2, handler1);
+				delete handler1;
+				system("pause");
 				break;
 			}
 			case 3: {
 				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(1, filename3, handler1);
+				delete handler1;
+				system("pause");
 				break;
 			}
-
+			case 4: {
+				if (ob1.get_name() == "") {
+					cout << "Not find your file,pls try again" << endl;
+					system("pause");
+					break;
+				}
+				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(1, ob1.get_name(), handler1);
+				delete handler1;
+				system("pause");
+				break;
+			}
 			default:
-				break;
+			{
+				cout << "Incorrect input" << endl;
+				break; }
 			}
+			break;
 		}
 		case 5: {
-
+			system("cls");
+			cout << "Choose in which file you want to change data" << endl;
+			cout << "1. Train" << endl;
+			cout << "2. Plane" << endl;
+			cout << "3. Tickets" << endl;
+			cout << "4. Your file" << endl;
+			cout << "0 - Back" << endl;;
+			while (1) {
+				cout << "Select an action 1-3:  ";
+				cin >> str_but;
+				try {
+					but[6] = stoi(str_but);
+				}
+				catch (...) {
+					cout << "Please enter a numerical value" << endl;
+					system("pause");
+					continue;
+				}
+				break;
+			}
+			switch (but[6])
+			{
+			case 1: {
+				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(2, filename, handler1);
+				delete handler1;
+				system("pause");
+				break;
+			}
+			case 2:
+			{
+				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(2, filename2, handler1);
+				delete handler1;
+				system("pause");
+				break;
+			}
+			case 3: {
+				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(2, filename3, handler1);
+				delete handler1;
+				system("pause");
+				break;
+			}
+			case 4: {
+				if (ob1.get_name() == "") {
+					cout << "Not find your file,pls try again" << endl;
+					system("pause");
+					break;
+				}
+				system("cls");
+				handler1 = new Cashbox;
+				handler1->change(2, ob1.get_name(), handler1);
+				delete handler1;
+				system("pause");
+				break;
+			}
+			default: {
+				cout << "Incorrect input" << endl;
+				break; }
+			}
+			break;
 		}
 		case 6: {
 			system("cls");
-			cout << "Input the way to the file" <<endl;
+			cout << "Input the way to the file" << endl;
 			cin >> point;
 			if (ob1.checking(point) == 1) {
 				ob1.set_name(point);
@@ -241,6 +431,11 @@ void menu() {
 			flag = false;
 			break;
 		}
+		default: {
+			cout << "Incorrect input, input within(0-6)" << endl;
+			system("pause");
+			break;
 		}
-	}
+			}
+		}
 }

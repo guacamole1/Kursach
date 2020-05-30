@@ -50,6 +50,9 @@
     <Text Include="Usfile.txt">
       <Filter>Файлы заголовков</Filter>
     </Text>
+    <Text Include="raw_requests.txt">
+      <Filter>Файлы заголовков</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cashbox.cpp">

@@ -26,7 +26,7 @@ public:
 
 	void fprint(std::string str);// вывод данных билета в файл
 	void change(int choice, string str, Cashbox *ob);
-	void function(std::string request, std::string str);//поиск запроса(request) в (str)файле
+	void function(int flag,std::string request, std::string str);//поиск запроса(request) в (str)файле
 	
 	int checking(string str);//проверка города(следует ли поезд/самолёт в введённый ользователем город
 
@@ -34,7 +34,7 @@ public:
 	string get_name();//
 
 	int check_point(string str);// проверка содержется ли город в списке 
-	void handle(std::string request) override;//переопределяем функцию-обработчик
+	void handle(int flag, std::string request) override;//переопределяем функцию-обработчик
 	Handler *SetNext(Handler *handler) override;//устанавливаем указатель на сл. обработчика
 
 	friend std::string converter(Cashbox *ob);//создание запроса по шаблону

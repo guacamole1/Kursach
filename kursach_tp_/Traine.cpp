@@ -2,11 +2,12 @@
 
 using namespace std;
 
-void Train::handle(std::string request) {
-	string str = "train.txt";
-	cout << "Обработчик 'Поезд':" << endl;
-	function(request, str);
+void Train::handle(int flag, std::string request) {
+	cout << "Handle 'Train':" << endl;
+	function(flag,request, file);
 
 }
-Train::Train() {}
+Train::Train() {
+	file = "train.txt";
+}
 Train::~Train() {}

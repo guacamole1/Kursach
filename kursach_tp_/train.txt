@@ -1,0 +1,4 @@
+Day:12 Month:12 Year:2020 Cost:1232 Destination:Kaza
+Day:12 Month:12 Year:2020 Cost:1232 Destination:Kazan
+Day:12 Month:12 Year:2020 Cost:1232 Destination:Kaz
+Day:12 Month:12 Year:2020 Cost:1232 Destination:Kazan

@@ -24,16 +24,16 @@ Handler* Cashbox:: SetNext(Handler *handler) {
 	this-> next_handler = handler;
 	return handler;
 }
-void Cashbox::handle(std::string request) {
+void Cashbox::handle(int flag,std::string request) {
 	if (this->next_handler) {
-		return this->next_handler->handle(request);
+		return this->next_handler->handle(flag,request);
 	}
 	return;
 }
 
-void Cashbox::function(std::string request, std::string str) {
+void Cashbox::function(int flag, std::string request, std::string str) {
 	vector <std::string> vec_string;
-	vector <std::string> vec_string1;
+
 	bool flag1 = false;
 	string str1;
 	int  check = 0, p = 0;
@@ -48,6 +48,8 @@ void Cashbox::function(std::string request, std::string str) {
 		if (!fin.is_open()) {
 			fin.close();
 			throw exception("File not open");
+		if(fin.peek() == EOF)
+			throw exception("File is empty");
 		}
 	}
 	catch (exception& ex) {
@@ -72,14 +74,25 @@ void Cashbox::function(std::string request, std::string str) {
 		system("pause");
 		return;
 	}
-
-	while (!fin.eof()) {
-		getline(fin, str1);
-		pos = str1.find(request);//ищем запрошеную запись целую/отдельный параметр
-		if (string::npos != pos) {
-			flag1 = true;
-			vec_string.push_back(str1);
-			cout << vec_string.size() << " " << str1 <<endl;
+	if (flag == 1) {
+		while (!fin.eof()) {
+			getline(fin, str1);
+			if (request == str1) {
+				flag1 = true;
+				vec_string.push_back(str1);
+				cout << vec_string.size() << " " << str1 << endl;
+			}
+		}
+	}
+	if (flag == 2) {
+		while (!fin.eof()) {
+			getline(fin, str1);
+			pos = str1.find(request);
+			if (pos!=-1) {
+				flag1 = true;
+				vec_string.push_back(str1);
+				cout << vec_string.size() << " " << str1 << endl;
+			}
 		}
 	}
 	if (flag1) {
@@ -123,7 +136,7 @@ void Cashbox::function(std::string request, std::string str) {
 	}
 	else {
 		if(next_handler)
-			next_handler->handle(request);
+			next_handler->handle(flag,request);
 		else
 			cout << "No results" << endl; system("pause");
 	}
@@ -227,7 +240,7 @@ void Cashbox::fpush(std::string str)
 		return;
 	}
 	push();
-	fot << endl <<"Day:"<< day << " " << "Month:" << mouth << "Year:" << year << " " << "Cost:" << cost << " " << "Destination" << point;
+	fot << endl <<"Day:"<< day << " " << "Month:" << mouth << " " << "Year:" << year << " " << "Cost:" << cost << " " << "Destination:" << point;
 	fot.close();
 	cout << "Record successfully added.";
 }
@@ -351,7 +364,7 @@ int Cashbox::checking(string str)
 	string str1 ="";
 	vector <string> line;
 	bool flag= true;
-	char a[80];
+	char *a= new char[200];
 	try {
 		fin.open(str, ios::in);
 		if (!fin.is_open()) {
@@ -365,24 +378,14 @@ int Cashbox::checking(string str)
 		system("pause");
 		return 0;
 	}
-	for (i = 0; i < 80; i++) {
-		a[i] = 0;
+	for (i = 0; i < 200; i++) {
+		a[i] = ' ';
 	}
 	i = 0;
 	try {
 		while (!fin.eof()) {
 
-				fin.getline(a, 80);
-				try {
-					if (sizeof(a) >= 80)
-						throw exception("Out of need size of string");
-			}
-			catch (exception &ex)
-			{
-				cout << ex.what() <<endl;
-				system("pause");
-				return 0;
-			}
+				fin.getline(a, 200);
 			while (1) {
 				if (a[i] == 0) {
 					line.push_back(str1);
@@ -399,8 +402,8 @@ int Cashbox::checking(string str)
 					i++;
 				}
 				}
-			for (i = 0; i < 80; i++) {
-				a[i] =0;
+			for (i = 0; i < 200; i++) {
+				a[i] =' ';
 			}
 			str1 = "";
 			i = 0;
@@ -412,29 +415,31 @@ int Cashbox::checking(string str)
 		system("pause");
 		return 0;
 	}
-
-	for (i = 0; i < (line.size() / 5); i++)
+	j = line.size() / 5;
+	for (j = 0; j < (line.size() / 5); j++)
 	{			
 		try{
-				if ((stoi(line[i].substr(5, line[i].length())) <= 0) && (stoi(line[i].substr(5, line[i].length())) > 31)) {
+				if ((stoi(line[i].substr(4, line[i].length())) <= 0) || (stoi(line[i].substr(4, line[i].length())) > 31)) {
 					throw exception("Incorrect date record (day)");
 				}
 				i++;
-				if ((stoi(line[i].substr(7, line[i].length())) <= 0) && (stoi(line[i].substr(7, line[i].length())) > 12)) {
+				if ((stoi(line[i].substr(6, line[i].length())) <= 0) || (stoi(line[i].substr(6, line[i].length())) > 12)) {
 					throw exception("Incorrect date record (month)");
 				}
 				i++;
-				if ((stoi(line[i].substr(6, line[i].length())) <= 2020) && (stoi(line[i].substr(6, line[i].length())) > 2021)) {
+				if ((stoi(line[i].substr(5, line[i].length())) < 2020) || (stoi(line[i].substr(5, line[i].length())) > 2021)) {
 					throw exception("Incorrect date record (year)");
 				}
 				i++;
-				if ((stoi(line[i].substr(6, line[i].length())) <= 0) && (stoi(line[i].substr(6, line[i].length())) > 700000)) {
+				if ((stoi(line[i].substr(5, line[i].length())) <= 0) || (stoi(line[i].substr(5, line[i].length())) > 700000)) {
 					throw exception("Incorrect  cost record");
 				}
 				i++;
-				if (check_point(line[i].substr(13, line[i].length())) == 0) {
+				if (check_point(line[i].substr(12, line[i].length())) == 0) {
 					throw exception("Incorrect Destination record");
 				}
+				//cout << j << " "<< "Day:" << stoi(line[i-4].substr(4, line[i-4].length())) << "Month:" << stoi(line[i-3].substr(6, line[i-3].length())) << "Year:" << stoi(line[i-2].substr(5, line[i-2].length())) << "Cost:" << stoi(line[i-1].substr(5, line[i-1].length()))<<"Point"<< line[i].substr(12, line[i].length()) << endl;
+				i++;
 		}
 		catch (exception &ex) {
 			cout << ex.what() << endl;
@@ -442,6 +447,7 @@ int Cashbox::checking(string str)
 			return 0;
 		}
 	}
+	delete[] a;
 	return 1;
 }
 
@@ -464,8 +470,8 @@ int Cashbox::check_point(string str) {
 
 	while (!fin.eof()) {
 		getline(fin, str2);
-		pos = str2.find(str);//ищем конвертированную запись целую/отдельный параметр
-		if (string::npos != pos) {
+		pos = str.find(str2);
+		if (pos!=-1) {
 			return 1;
 		}
 	}

@@ -125,6 +125,7 @@
   <ItemGroup>
     <Text Include="plane.txt" />
     <Text Include="point.txt" />
+    <Text Include="raw_requests.txt" />
     <Text Include="tickets.txt" />
     <Text Include="train.txt" />
     <Text Include="Usfile.txt" />
