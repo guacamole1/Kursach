@@ -1,4 +1,4 @@
-#include "Cashbox.h"
+ï»¿#include "Cashbox.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -24,7 +24,7 @@ Handler* Cashbox:: SetNext(Handler *handler) {
 	this-> next_handler = handler;
 	return handler;
 }
-void Cashbox::handle(int flag,std::string request) {// Âîçâðàò îáðàáîò÷èêà îòñþäà ïîçâîëèò ñâÿçàòü îáðàáîò÷èêè ïðîñòûì ñïîñîáîì Êàññà -> 
+void Cashbox::handle(int flag,std::string request) {// Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‚ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ° Ð¾Ñ‚ÑÑŽÐ´Ð° Ð¿Ð¾Ð·Ð²Ð¾Ð»Ð¸Ñ‚ ÑÐ²ÑÐ·Ð°Ñ‚ÑŒ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¸ Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ð¼ ÑÐ¿Ð¾ÑÐ¾Ð±Ð¾Ð¼ ÐšÐ°ÑÑÐ° -> 
 	if (this->next_handler) {
 		return this->next_handler->handle(flag,request);
 	}
@@ -144,7 +144,7 @@ void Cashbox::function(int flag, std::string request, std::string str) {
 }
 
 void Cashbox::push() {
-	// ââîä äàííûõ áèëåòà
+	// Ð²Ð²Ð¾Ð´ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð±Ð¸Ð»ÐµÑ‚Ð°
 	bool flag1 = true;
 	string  str = "Incorrect input, use an example";
 	int check;
@@ -162,7 +162,7 @@ void Cashbox::push() {
 				cin >> mouth; 
 				cout << "Year:";
 				cin >> year; 
-				//ïðîâåðêà ââîäà ïàðàìåòðîâ äàòû â çàäàíûõ èíòåðâàëàõ
+				//Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð²Ð²Ð¾Ð´Ð° Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð² Ð´Ð°Ñ‚Ñ‹ Ð² Ð·Ð°Ð´Ð°Ð½Ñ‹Ñ… Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»Ð°Ñ…
 				if (!((stoi(day) > 0 && stoi(day) < 32) && (stoi(mouth) > 0 && stoi(mouth) < 32) && (stoi(year) >= 2020 && stoi(year) < 2022))) {
 					throw str;
 				}
@@ -204,8 +204,8 @@ void Cashbox::push() {
 			catch (exception &ex)
 			{
 				cout << ex.what() << endl;
-				system("pause");//ïîèñê íå äàë ðåçóëüòàòîâ, âûâîä ñïèñêà ãîðîäîâ ïî êîòîðûì ñëåäóåò ñàìîë¸ò/ïîåçä
-				fprint("point.txt");//÷òîáû ïîëüçîâàòåëü ìîã ñàì âûáðàòü
+				system("pause");//Ð¿Ð¾Ð¸ÑÐº Ð½Ðµ Ð´Ð°Ð» Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð², Ð²Ñ‹Ð²Ð¾Ð´ ÑÐ¿Ð¸ÑÐºÐ° Ð³Ð¾Ñ€Ð¾Ð´Ð¾Ð² Ð¿Ð¾ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¼ ÑÐ»ÐµÐ´ÑƒÐµÑ‚ ÑÐ°Ð¼Ð¾Ð»Ñ‘Ñ‚/Ð¿Ð¾ÐµÐ·Ð´
+				fprint("point.txt");//Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ð¼Ð¾Ð³ ÑÐ°Ð¼ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ
 				continue;
 			}
 			break;
@@ -318,7 +318,7 @@ void Cashbox::change(int choice,string str, Cashbox *ob) {
 		system("pause");
 		return;
 	}
-	cout << "Input the required line number: ";//ââåäèòå ñòðîêó äëÿ íåîáõîäèìûõ äåéñòâèé(èçìåíåíèÿ)
+	cout << "Input the required line number: ";//Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð´Ð»Ñ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ñ… Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ð¹(Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ)
 	while (1) {
 		cin >> p;
 		try {

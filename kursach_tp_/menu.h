@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Cashbox.h"
 using namespace std;
 

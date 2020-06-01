@@ -1,44 +1,44 @@
-#pragma once
+п»ї#pragma once
 #include "Handler.h"
 
 using namespace std;
 /**
- * Поведение цепочки по умолчанию может быть реализовано внутри базового класса
- * обработчика.
+ * РџРѕРІРµРґРµРЅРёРµ С†РµРїРѕС‡РєРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂРµР°Р»РёР·РѕРІР°РЅРѕ РІРЅСѓС‚СЂРё Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР°
+ * РѕР±СЂР°Р±РѕС‚С‡РёРєР°.
  */
 class Cashbox : public Handler {
 private:
-	string day;//дата
+	string day;//РґР°С‚Р°
 	string mouth;
 	string year;
 
-	string cost;//стоимость
+	string cost;//СЃС‚РѕРёРјРѕСЃС‚СЊ
 
-	string point;//пункт назначения
+	string point;//РїСѓРЅРєС‚ РЅР°Р·РЅР°С‡РµРЅРёСЏ
 
 	string UserFile;
 
-	Handler *next_handler;//ссылка на следущий обработчик
+	Handler *next_handler;//СЃСЃС‹Р»РєР° РЅР° СЃР»РµРґСѓС‰РёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє
 
 public:
 
 	Cashbox();
 	~Cashbox();
-	void push();// ввод данных билета
-	void fpush(std::string str);// ввод данных в файл
+	void push();// РІРІРѕРґ РґР°РЅРЅС‹С… Р±РёР»РµС‚Р°
+	void fpush(std::string str);// РІРІРѕРґ РґР°РЅРЅС‹С… РІ С„Р°Р№Р»
 
-	void fprint(std::string str);// вывод данных билета в файл
+	void fprint(std::string str);// РІС‹РІРѕРґ РґР°РЅРЅС‹С… Р±РёР»РµС‚Р° РІ С„Р°Р№Р»
 	void change(int choice, string str, Cashbox *ob);
-	void function(int flag,std::string request, std::string str);//поиск запроса(request) в (str)файле
+	void function(int flag,std::string request, std::string str);//РїРѕРёСЃРє Р·Р°РїСЂРѕСЃР°(request) РІ (str)С„Р°Р№Р»Рµ
 	
-	int checking(string str);//проверка на корректность добавленого пользователем файла
+	int checking(string str);//РїСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РґРѕР±Р°РІР»РµРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј С„Р°Р№Р»Р°
 
-	void set_name(string userfile);//добавить путь к файлу
+	void set_name(string userfile);//РґРѕР±Р°РІРёС‚СЊ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ
 	string get_name();//
 
-	int check_point(string str);// проверка содержется ли город в списке следует ли поезд/самолёт в введённый ользователем город
-	void handle(int flag, std::string request) override;//переопределяем функцию-обработчик
-	Handler *SetNext(Handler *handler) override;//устанавливаем указатель на сл. обработчика
+	int check_point(string str);// РїСЂРѕРІРµСЂРєР° СЃРѕРґРµСЂР¶РµС‚СЃСЏ Р»Рё РіРѕСЂРѕРґ РІ СЃРїРёСЃРєРµ СЃР»РµРґСѓРµС‚ Р»Рё РїРѕРµР·Рґ/СЃР°РјРѕР»С‘С‚ РІ РІРІРµРґС‘РЅРЅС‹Р№ РѕР»СЊР·РѕРІР°С‚РµР»РµРј РіРѕСЂРѕРґ
+	void handle(int flag, std::string request) override;//РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµРј С„СѓРЅРєС†РёСЋ-РѕР±СЂР°Р±РѕС‚С‡РёРє
+	Handler *SetNext(Handler *handler) override;//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР». РѕР±СЂР°Р±РѕС‚С‡РёРєР°
 
-	friend std::string converter(Cashbox *ob);//создание запроса по шаблону
+	friend std::string converter(Cashbox *ob);//СЃРѕР·РґР°РЅРёРµ Р·Р°РїСЂРѕСЃР° РїРѕ С€Р°Р±Р»РѕРЅСѓ
 };
